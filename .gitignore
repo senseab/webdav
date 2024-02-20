@@ -1,3 +1,5 @@
 dist/
 webdav
 .direnv
+vendor
+result

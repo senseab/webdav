@@ -1,10 +1,14 @@
-FROM alpine:latest as certs
-RUN apk --update add ca-certificates
+FROM golang:1.21 as build
+
+ENV CGO_ENABLED=0
+COPY ./ /webdav
+RUN cd /webdav && go build -tags netgo -trimpath -ldflags "-w -s" -o webdav
 
 FROM scratch
-COPY --from=certs /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
 
-EXPOSE 80
-COPY webdav /webdav
-
+CMD [ "-c", "/config/config.yaml" ]
 ENTRYPOINT [ "/webdav" ]
+
+COPY --from=build /webdav/webdav /webdav
+
+WORKDIR /files

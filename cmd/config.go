@@ -8,7 +8,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/hacdias/webdav/v4/lib"
+	"github.com/senseab/webdav/v4/lib"
 	"github.com/spf13/pflag"
 	v "github.com/spf13/viper"
 	"golang.org/x/net/webdav"

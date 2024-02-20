@@ -1,4 +1,4 @@
-module github.com/hacdias/webdav/v4
+module github.com/senseab/webdav/v4
 
 go 1.16
 

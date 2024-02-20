@@ -1,8 +1,6 @@
-> ⚠️ Disclaimer: this repository is not actively maintained. If you are interested in maintaining it, please [contact me](https://github.com/hacdias/webdav/issues/144).
-
 # webdav
 
-![Build](https://github.com/hacdias/webdav/workflows/Tests/badge.svg)
+![Build](https://github.com/senseab/webdav/workflows/Tests/badge.svg)
 [![Go Report Card](https://goreportcard.com/badge/github.com/hacdias/webdav?style=flat-square)](https://goreportcard.com/report/hacdias/webdav)
 [![Version](https://img.shields.io/github/release/hacdias/webdav.svg?style=flat-square)](https://github.com/hacdias/webdav/releases/latest)
 [![Docker Pulls](https://img.shields.io/docker/pulls/hacdias/webdav)](https://hub.docker.com/r/hacdias/webdav)
@@ -78,7 +76,9 @@ The `allowed_*` properties are optional, the default value for each of them will
 2. Use the `username:password@host` syntax.
 
 ### Reverse Proxy Service
+
 When you use a reverse proxy implementation like `Nginx` or `Apache`, please note the following fields to avoid causing `502` errors
+
 ```text
 location / {
         proxy_pass http://127.0.0.1:8080;
