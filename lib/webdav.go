@@ -2,8 +2,11 @@ package lib
 
 import (
 	"context"
+	"fmt"
+	"log"
 	"net/http"
 	"strings"
+	"time"
 
 	"go.uber.org/zap"
 )
@@ -75,22 +78,33 @@ func (c *Config) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 		// Gets the correct user for this request.
 		username, password, ok := r.BasicAuth()
-		zap.L().Info("login attempt", zap.String("username", username), zap.String("remote_address", r.RemoteAddr))
+		reqHost := func() string {
+			hArr := strings.Split(r.RemoteAddr, ":")
+			return hArr[0]
+		}
+		reqMark := fmt.Sprintf("%s:%s", reqHost(), username)
+
+		if _, found := authorizedSource.Load(reqMark); !found {
+			log.Printf("%s tried to verify account , username is [%s]", r.RemoteAddr, username)
+		}
+
 		if !ok {
-			http.Error(w, "Not authorized", 401)
+			http.Error(w, "Not authorized", http.StatusUnauthorized)
 			return
 		}
 
 		user, ok := c.Users[username]
 		if !ok {
-			http.Error(w, "Not authorized", 401)
+			http.Error(w, "Not authorized", http.StatusUnauthorized)
 			return
 		}
 
 		if !checkPassword(user.Password, password) {
-			zap.L().Info("invalid password", zap.String("username", username), zap.String("remote_address", r.RemoteAddr))
-			http.Error(w, "Not authorized", 401)
+			log.Println("Wrong Password for user", username)
+			http.Error(w, "Not authorized", http.StatusUnauthorized)
 			return
+		} else {
+			authorizedSource.Store(reqMark, time.Now())
 		}
 
 		u = user
