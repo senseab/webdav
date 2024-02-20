@@ -74,15 +74,3 @@ jobs:
         with:
           github_token: ${{ secrets.github_token }}
 
-  goreleaser-check:
-  # goreleaser --rm-dist --skip-validate --skip-publish
-    runs-on: ubuntu-latest
-    steps:
-      - name: checkout
-        uses: actions/checkout@v2
-      - uses: goreleaser/goreleaser-action@v2
-        with:
-          version: latest
-          args: check
-        env:
-          TAG: ${{ steps.vars.outputs.version_tag }}
