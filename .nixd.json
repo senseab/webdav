@@ -1,0 +1,15 @@
+{
+    "formatting": {
+        "command": "nixpkgs-fmt"
+    },
+    "eval": {
+        "target": {
+            "args": [
+                "-f",
+                "default.nix"
+            ],
+            "installable": "defaultPackage"
+        },
+        "depth": 3
+    }
+}
